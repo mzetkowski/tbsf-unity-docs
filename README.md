@@ -74,7 +74,7 @@ The goal of this documentation is to equip you with the knowledge needed to effi
    * [Game State Synchronization](#game-state-synchronization)
    * [Additional Actions](#additional-actions)
    * [Nakama Integration](#nakama-integration)
-* [10. Tutorial](#9-tutorial)
+* [10. Tutorial](#10-tutorial)
    * [Cell Template](#cell-template)
    * [Generating the Grid Using the Grid Helper](#generating-the-grid-using-the-grid-helper)
    * [Creating an Obstacle Cell](#creating-an-obstacle-cell)
