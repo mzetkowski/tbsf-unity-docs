@@ -93,6 +93,8 @@ The Framework was designed to be used with Unity 2023 and above
 ### Installation and Setup
 Follow these steps to import the Turn Based Strategy Framework into your project:
 
+>⚠️ **Warning:** Take note that importing a complete project will overwrite your current project settings. Backup your project before importing.
+
 1. Navigate to the Framework page on the Unity Asset Store at https://u3d.as/mfd
 2. Press the "Open in Unity" button
 3. In the Package Manager window, press the "Download" button and then "Import" button
