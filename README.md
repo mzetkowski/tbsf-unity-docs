@@ -84,11 +84,11 @@ The goal of this documentation is to equip you with the knowledge needed to effi
    * [1. Using Unity Tilemap System for maps](#1-using-unity-tilemap-system-for-maps)
    * [2. Porting to other engines](#2-porting-to-other-engines)
 * [12. Support](#12-support)
-* [13. Conclusion](#13-conclusion)
 
 ## 2. Getting Started
 ### Prerequisites
-The Framework was designed to be used with Unity 2023 and above
+The Framework is compatible with **Unity 2023 and above**, and supports both the **Built‑in Render Pipeline** and **Universal Render Pipeline (URP)**.
+> ⚠️ **Note**: All demo scenes are configured for the **Built‑in Renderer** by default. You can convert them to URP manually if needed.
 
 ### Installation and Setup
 Follow these steps to import the Turn Based Strategy Framework into your project:
