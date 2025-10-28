@@ -270,14 +270,14 @@ The **GridHelper** provides several fields that allow you to customize your grid
 - **Plane**:
 Indicates whether the map should be generated along the XY (for 2D maps) or XZ plane (for 3D maps)
 
-- **Generator**:
-  Select the generator for either Square based maps or Hex based maps
+- **Cell Prefab**:  
+  This field allows you to assign a specific cell prefab to be used for generating the grid.
+
+  > ⚠️ Note
+  > The assigned cell prefab automatically determines which map generator is used—there’s no need to select the hexagonal or square generator manually.
 
 - **Width and Height**:  
   These fields determine the dimensions of the grid. You can set both the **width** (number of columns) and **height** (number of rows) to customize the size of your map.
-
-- **Cell Prefab**:  
-  This field allows you to assign a specific cell prefab to be used for generating the grid.
 
 To generate the map, do the following:
   - Create a new scene using **File > New Scene**
