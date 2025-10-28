@@ -273,7 +273,7 @@ Indicates whether the map should be generated along the XY (for 2D maps) or XZ p
 - **Cell Prefab**:  
   This field allows you to assign a specific cell prefab to be used for generating the grid.
 
-  > ⚠️ Note
+  > ⚠️ **Note**:
   > The assigned cell prefab automatically determines which map generator is used—there’s no need to select the hexagonal or square generator manually.
 
 - **Width and Height**:  
