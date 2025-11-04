@@ -384,11 +384,11 @@ These methods are also backed by **Highlighter** objects, providing the same fle
 Units have more extensive behavioral customization options compared to cells, as they manage movement, combat, and interactions with the grid. Here are the key virtual methods you can customize:
 
 - **Initialize()**: This method is called when the unit is created and can be used to set up initial state.
-- **OnTurnStart(GridController gridController)**: Triggered at the beginning of the unit’s turn.
-- **OnTurnEnd(GridController gridController)**: Triggered at the end of the unit’s turn.
-- **OnUnitSelected(GridController gridController)**: Handles logic when a unit is selected by the player.
-- **OnUnitDeselected(GridController gridController)**: Handles logic when a unit is deselected.
-- **OnDestroyed(GridController gridController)**: Called when unit is destroyed, typically when health drops to 0.
+- **OnTurnStart(IGridController gridController)**: Triggered at the beginning of the unit’s turn.
+- **OnTurnEnd(IGridController gridController)**: Triggered at the end of the unit’s turn.
+- **OnUnitSelected(IGridController gridController)**: Handles logic when a unit is selected by the player.
+- **OnUnitDeselected(IGridController gridController)**: Handles logic when a unit is deselected.
+- **OnDestroyed(IGridController gridController)**: Called when unit is destroyed, typically when health drops to 0.
 
 **Movement-related methods**:
 These three high-level methods used to define how the unit moves. Easy to use and should cover most of the use cases
@@ -444,59 +444,59 @@ The `Ability` class provides several virtual methods that define how a unit's ab
 
 ##### Initialization and Cleanup
 
-- **`Initialize(GridController gridController)`**:  
+- **`Initialize(IGridController gridController)`**:  
   Called once when the ability is registered by the unit. Use this method to set up any initial states or prepare resources for the ability.
 
-- **`Display(GridController gridController)`**:  
+- **`Display(IGridController gridController)`**:  
   This method is responsible for showing the ability’s effects on the grid, such as highlighting cells or units. You would typically use this to display ranges or target areas.
 
-- **`CleanUp(GridController gridController)`**:  
+- **`CleanUp(IGridController gridController)`**:  
   Removes any visual indicators or temporary effects left over from the ability’s display phase. This helps to reset the grid to its default state after the ability is used or canceled.
 
 ##### Unit Interaction Methods
 
-- **`OnUnitClicked(IUnit unit, GridController gridController)`**:  
+- **`OnUnitClicked(IUnit unit, IGridController gridController)`**:  
   Called when a unit is clicked while the ability is active. It’s useful for targeting specific units with abilities like attacks or buffs.
 
-- **`OnUnitHighlighted(IUnit unit, GridController gridController)`**:  
+- **`OnUnitHighlighted(IUnit unit, IGridController gridController)`**:  
   Triggered when a unit is highlighted while the ability is selected, allowing for visual feedback when hovering over targetable units.
 
-- **`OnUnitDehighlighted(IUnit unit, GridController gridController)`**:  
+- **`OnUnitDehighlighted(IUnit unit, IGridController gridController)`**:  
   This method is triggered when a unit is no longer highlighted, typically used to remove any hover effects.
 
-- **`OnUnitDestroyed(GridController gridController)`**:  
+- **`OnUnitDestroyed(IGridController gridController)`**:  
   Called when the unit that owns this ability is destroyed. This is useful for cleaning up ongoing effects or stopping the ability’s logic.
 
 ##### Cell Interaction Methods
 
-- **`OnCellClicked(ICell cell, GridController gridController)`**:  
+- **`OnCellClicked(ICell cell, IGridController gridController)`**:  
   This method is triggered when a cell is clicked while the ability is active.
 
-- **`OnCellHighlighted(ICell cell, GridController gridController)`**:  
+- **`OnCellHighlighted(ICell cell, IGridController gridController)`**:  
   Called when a cell is highlighted or selected, allowing you to provide visual feedback or logic based on cell interactions.
 
-- **`OnCellDehighlighted(ICell cell, GridController gridController)`**:  
+- **`OnCellDehighlighted(ICell cell, IGridController gridController)`**:  
   Triggered when a cell is deselected. This is often used to remove visual effects from previously highlighted cells.
 
 ##### Turn-based Methods
 
-- **`OnTurnStart(GridController gridController)`**:  
+- **`OnTurnStart(IGridController gridController)`**:  
   Called at the beginning of the unit’s turn.
 
-- **`OnTurnEnd(GridController gridController)`**:  
+- **`OnTurnEnd(IGridController gridController)`**:  
   This method is called at the end of the unit’s turn.
 
 ##### Ability Selection
 
-- **`OnAbilitySelected(GridController gridController)`**:  
+- **`OnAbilitySelected(IGridController gridController)`**:  
   Triggered when the ability is selected by the player or AI.
 
-- **`OnAbilityDeselected(GridController gridController)`**:  
+- **`OnAbilityDeselected(IGridController gridController)`**:  
   Called when the ability is no longer the active one.
 
 ##### Other
 
-- **`CanPerform(GridController gridController)`**:  
+- **`CanPerform(IGridController gridController)`**:  
   This method is used for determining whether the ability can be used at the current moment. It evaluates conditions like action points, cooldowns, or specific game rules. If true is returned, the ability can be performed; otherwise, it cannot. Its primary role is to check if the unit can perform any more actions, and if not, the unit is marked as finished for the turn.
 
 ### Executing Abilities
@@ -510,7 +510,7 @@ public class AttackAbilityImpl : IAbility<AttackCommand>
 {
     /*...*/
 
-    public void OnUnitClicked(IUnit unit, GridController gridController)
+    public void OnUnitClicked(IUnit unit, IGridController gridController)
     {
         if (UnitReference.ActionPoints > 0 && _attackableUnits.Contains(unit))
         {
@@ -589,7 +589,7 @@ public class FireballAbility : Ability
     private IEnumerable<ICell> _cellsInRange;
     private IEnumerable<IUnit> _unitsInRange;
 
-    public override void OnCellHighlighted(ICell cell, GridController gridController)
+    public override void OnCellHighlighted(ICell cell, IGridController gridController)
     {
         _cellsInRange = gridController.CellManager.GetCells().Where(c => c.GetDistance(cell) <= _radius);
         gridController.CellManager.MarkAsReachable(_cellsInRange);
@@ -597,13 +597,13 @@ public class FireballAbility : Ability
         gridController.UnitManager.MarkAsReachableEnemy(_unitsInRange);
     }
 
-    public override void OnCellClicked(ICell cell, GridController gridController)
+    public override void OnCellClicked(ICell cell, IGridController gridController)
     {
         var unitsInRange = _cellsInRange.SelectMany(c => c.CurrentUnits).ToList();
         UnitReference.HumanExecuteAbility(new MultipleTargetAttackCommand(unitsInRange, _damage), gridController);
     }
 
-    public override void OnUnitClicked(IUnit unit, GridController gridController)
+    public override void OnUnitClicked(IUnit unit, IGridController gridController)
     {
         if (gridController.UnitManager.GetFriendlyUnits(unit.PlayerNumber).Contains(unit))
         {
@@ -611,13 +611,13 @@ public class FireballAbility : Ability
         }
     }
 
-    public override void OnCellDehighlighted(ICell cell, GridController gridController)
+    public override void OnCellDehighlighted(ICell cell, IGridController gridController)
     {
         gridController.CellManager.UnMark(_cellsInRange);
         gridController.UnitManager.UnMark(_unitsInRange);
     }
 
-    public override void CleanUp(GridController gridController)
+    public override void CleanUp(IGridController gridController)
     {
         gridController.CellManager.UnMark(_cellsInRange);
         gridController.UnitManager.UnMark(_unitsInRange);
@@ -661,7 +661,7 @@ Here’s a breakdown of how the `CompoundAbility` works:
 ##### Initializing Abilities
 The `CompoundAbility` contains a list of selectable abilities, which are set up during initialization. Each ability is registered with the unit, allowing them to be used during gameplay. This is done by iterating over the `_selectableAbilities` array and calling `RegisterAbility` for each one.
 ```csharp
-public override void Initialize(GridController gridController)
+public override void Initialize(IGridController gridController)
 {
     foreach (var ability in _selectableAbilities)
     {
@@ -672,7 +672,7 @@ public override void Initialize(GridController gridController)
 ##### Displaying Abilities
 When the `CompoundAbility` is selected, it generates a button for each of the selectable abilities. These buttons are added as children to a predefined UI element (e.g., a menu), and each button is linked to one of the abilities. When a button is pressed, the game switches to the selected ability by setting the `GridState` to `GridStateUnitSelected`, passing the corresponding ability.
 ```csharp
-public override void Display(GridController gridController)
+public override void Display(IGridController gridController)
 {
     foreach (var ability in _selectableAbilities)
     {
@@ -697,7 +697,7 @@ public override void Display(GridController gridController)
 ##### Cleaning Up
 To clean up after the `CompoundAbility` is deselected or canceled, all generated buttons are removed from the UI element, and the parent is hidden to prevent it from remaining visible.
 ```csharp
-public override void CleanUp(GridController gridController)
+public override void CleanUp(IGridController gridController)
     {
         for (int i = 0; i < _buttons.Count; i++)
         {
@@ -723,7 +723,7 @@ public class SpellBookAbility : Ability
 
     private IList<Button> _buttons = new List<Button>();
 
-    public override void Initialize(GridController gridController)
+    public override void Initialize(IGridController gridController)
     {
         foreach (var ability in _selectableAbilities)
         {
@@ -731,7 +731,7 @@ public class SpellBookAbility : Ability
         }
     }
 
-    public override void Display(GridController gridController)
+    public override void Display(IGridController gridController)
     {
         foreach (var ability in _selectableAbilities)
         {
@@ -753,7 +753,7 @@ public class SpellBookAbility : Ability
         _buttonParent.gameObject.SetActive(true);
     }
 
-    public override void CleanUp(GridController gridController)
+    public override void CleanUp(IGridController gridController)
     {
         for (int i = 0; i < _buttons.Count; i++)
         {
@@ -905,7 +905,7 @@ Creating custom behaviour trees involves extending the `BehaviourTreeResource` c
 ##### The tree root
 The `SequenceNode` is used as the root of the tree. The node executes it's child nodes in sequence until one of them fails. In this case, we want the node to execute all it's child nodes.
 ```csharp
-public override void Initialize(IUnit unit, GridController gridController)
+public override void Initialize(IUnit unit, IGridController gridController)
 {
     BehaviourTree = new SequenceNode(new List<ITreeNode>()
     {
@@ -950,7 +950,7 @@ new SequenceNode(new List<ITreeNode>
 ```csharp
 public class SimpleBehaviourTreeResource : BehaviourTreeResource
 {
-    public override void Initialize(IUnit unit, GridController gridController)
+    public override void Initialize(IUnit unit, IGridController gridController)
     {
         BehaviourTree = new SequenceNode(new List<ITreeNode>()
         {
@@ -1016,14 +1016,14 @@ namespace TurnBasedStrategyFramework.Common.Controllers.TurnResolvers
 {
     public readonly struct SubsequentTurnResolverImpl : ITurnResolver
     {
-        public readonly TurnContext ResolveStart(GridController gridController)
+        public readonly TurnContext ResolveStart(IGridController gridController)
         {
             var nextPlayer = gridController.PlayerManager.GetPlayers().OrderBy(p => p.PlayerNumber).FirstOrDefault();
             var allowedUnits = gridController.UnitManager.GetUnits().Where(u => u.PlayerNumber == nextPlayer.PlayerNumber);
             return new TurnContext(nextPlayer, allowedUnits);
         }
 
-        public readonly TurnContext ResolveTurn(GridController gridController)
+        public readonly TurnContext ResolveTurn(IGridController gridController)
         {
             var numberOfPlayers = gridController.PlayerManager.GetPlayers().Count();
             var nextPlayerNumber = (gridController.TurnContext.CurrentPlayer.PlayerNumber + 1) % numberOfPlayers;
