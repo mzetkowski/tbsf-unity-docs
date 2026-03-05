@@ -1,4 +1,4 @@
-# Turn-Based Strategy Framework v4.1.0 - Unity Documentation
+# Turn-Based Strategy Framework v4.2.0 - Unity Documentation
 
 ## 1. Introduction
 
