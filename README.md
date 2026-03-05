@@ -131,6 +131,7 @@ The best way to get familiar with the framework is to study the sample demos pro
 The `Examples` folder contains several types of demos:
 
 * **Clash of Heroes Demo**: A comprehensive demonstration showcasing many framework features working together.
+* **Features**: A growing number of bite-sized demos showcasing implementations of different turn-based gameplay mechanics.
 * **Legacy Demos**: Simpler demonstrations from previous versions of the framework, still valuable for understanding core concepts.
 * **Tilemap Demo**: A demo showcasing an alternative grid setup using Unity's Tilemap system.
 
