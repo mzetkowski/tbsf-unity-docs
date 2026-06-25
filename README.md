@@ -770,6 +770,8 @@ The AI in the Turn-Based Strategy Framework is built on Behaviour Trees, a syste
 
 At the core of the AI system is the AIPlayer class, which controls the units assigned to it during its turn. Each unit controlled by the AI follows a set of decisions defined by its own behaviour tree. By default, the Framework provides a `RegularBehaviourTreeResource`, a general-purpose behaviour tree that handles standard actions like moving and attacking. The AIPlayer handles selecting units, triggering their behaviour trees, and executing actions on the grid.
 
+> 💡 Tip: By default, Behaviour Trees in the Framework are created in code. There is an optional visual tool for creating Behaviour Trees, which you can check out [here](https://github.com/mzetkowski/tbsf-bteditor).
+
 ### AIPlayer and Unit Selection
 
 In the Turn-Based Strategy Framework, the **AIPlayer** class is responsible for controlling units during its turn. AI players are set up automatically by the Grid Helper, or they can be manually added by attaching an **AIPlayer** script to a GameObject under the **PlayersManager** in the scene. During its turn, the AIPlayer selects units, commands them using their behaviour trees, and continues this process until all units have acted.
