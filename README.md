@@ -87,8 +87,8 @@ The goal of this documentation is to equip you with the knowledge needed to effi
 
 ## 2. Getting Started
 ### Prerequisites
-The Framework is compatible with **Unity 2023 and above**, and supports both the **Built‑in Render Pipeline** and **Universal Render Pipeline (URP)**.
-> ⚠️ **Note**: All demo scenes are configured for the **Built‑in Renderer** by default. You can convert them to URP manually if needed.
+The Framework is compatible with **Unity 2023 and above** and is configured to use the **Universal Render Pipeline (URP)** by default. It can also be used with the **Built-in Render Pipeline**.
+> ⚠️ **Note**: All demo scenes are configured for the **Universal Render Pipeline** by default. You can convert them to Built-in Render Pipeline manually if needed.
 
 ### Installation and Setup
 Follow these steps to import the Turn Based Strategy Framework into your project:
